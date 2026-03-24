@@ -51,39 +51,52 @@ pnpm run dev
 ## Как устроена платформа
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ff8c00', 'primaryTextColor': '#fff', 'primaryBorderColor': '#e67300', 'lineColor': '#ffa500', 'clusterBkg': '#161b22', 'clusterBorder': '#e67300', 'background': '#0d1117'}}}%%
-flowchart LR
-  subgraph bot["Telegram"]
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ff8c00', 'primaryTextColor': '#fff', 'primaryBorderColor': '#e67300', 'lineColor': '#ffa500', 'clusterBkg': '#161b22', 'clusterBorder': '#e67300', 'background': '#0d1117', 'edgeLabelBackground': '#161b22'}}}%%
+flowchart TD
+  subgraph start [" "]
+    direction LR
     spawner["TMA Spawner\n/new  /launch  /help"]
-    preview["Mini App\nпревью"]
   end
 
-  subgraph local["Локальная машина"]
-    create["create\nбутстрап проекта"]
+  subgraph setup ["Настройка проекта"]
+    direction LR
+    create["create\nбутстрап"]
     tmpl["tma-project\nNext.js + TON Connect\n+ Telegram UI"]
+    create -.->|клонирует| tmpl
+  end
+
+  subgraph dev ["Разработка"]
+    direction LR
     tunnel["dev-tunnel\nтуннель для превью"]
     mcp["mcp\nAI-клиент к базе знаний"]
     cli["cli\nзапуск AI-агента"]
+    cli -.-> mcp
   end
 
-  subgraph cloud["Контрольная плоскость"]
-    api["Реестр проектов\nМаршрутизация туннелей\nБаза знаний (55+ docs)"]
+  subgraph cloud ["Контрольная плоскость"]
+    api["Реестр проектов · Маршрутизация туннелей · База знаний"]
+  end
+
+  subgraph result [" "]
+    direction LR
+    preview["Mini App — превью в Telegram"]
   end
 
   spawner -->|"токен"| create
-  create -.->|клонирует| tmpl
   tunnel <-->|WebSocket| api
   mcp -->|SSE| api
   api --> preview
 
   style spawner fill:#ff8c00,stroke:#e67300,color:#fff
-  style preview fill:#ff8c00,stroke:#e67300,color:#fff
   style create fill:#ff9800,stroke:#e67300,color:#fff
   style tmpl fill:#ffb74d,stroke:#e67300,color:#1a1a1a
   style tunnel fill:#ffa726,stroke:#e67300,color:#fff
   style mcp fill:#ffe0b2,stroke:#e67300,color:#1a1a1a
   style cli fill:#ffe0b2,stroke:#e67300,color:#1a1a1a
   style api fill:#ff8c00,stroke:#e67300,color:#fff
+  style preview fill:#ff8c00,stroke:#e67300,color:#fff
+
+  linkStyle default stroke:#ffa500,stroke-width:2px
 ```
 
 | Пакет | Что делает |
