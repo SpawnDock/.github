@@ -14,7 +14,7 @@ The bot handles all the technical setup behind the scenes: cloning the template,
 
 - [**@TMASpawnerBot**](https://t.me/TMASpawnerBot) — start here if you want to create a Mini App
 - [**GitHub**](https://github.com/SpawnDock) — source code and packages
-- [**Web3 Voice**](https://t.me/w3voice) — community
+- [**W3 Voice**](https://t.me/w3voice) — community
 
 ## Platform Components
 
