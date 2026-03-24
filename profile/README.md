@@ -1,6 +1,6 @@
 # SpawnDock
 
-**AI-powered development platform for Telegram Mini Apps on the TON blockchain.**
+**AI-powered development platform**
 
 One command to bootstrap a project, get a live preview tunnel,
 and let AI agents help you build.
