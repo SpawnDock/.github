@@ -1,128 +1,46 @@
 # SpawnDock
 
-**Платформа для создания Telegram Mini Apps на TON blockchain.**
+Open-source platform for building products on top of Telegram Mini Apps and the TON blockchain. SpawnDock provides the infrastructure layer — project scaffolding, live preview tunnels, and an AI knowledge base with 55+ documents on TMA and TON — so product teams can focus on what they're building, not how to set it up.
 
-Всё настроено за тебя — шаблон, туннель для превью на телефоне, AI-ассистент с базой знаний по TMA и TON. Напиши боту `/new`, запусти одну команду — и приложение уже работает в Telegram.
-
----
+SpawnDock is not a single product. It's the foundation that different products are built on.
 
 ## TMA Spawner
 
-Telegram-бот, который создаёт проект и выдаёт всё необходимое для старта.
+The first product on the platform. [**@TMASpawnerBot**](https://t.me/TMASpawnerBot) is a Telegram bot that gives anyone — even without development experience — a way to create and preview a Telegram Mini App. Write `/new`, follow the instructions, and your app is live on a real device in under a minute.
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ff8c00', 'primaryTextColor': '#fff', 'primaryBorderColor': '#e67300', 'lineColor': '#ffa500', 'secondaryColor': '#2d2d2d', 'tertiaryColor': '#3a3a3a', 'edgeLabelBackground': '#1e1e1e', 'clusterBkg': '#161b22', 'clusterBorder': '#e67300', 'background': '#0d1117'}}}%%
-flowchart TD
-  A["1. /new my-app\nБот создаёт проект\nи отдаёт команду для терминала"]
-  B["2. npx @spawn-dock/create --token ...\nШаблон клонируется, туннель\nи AI-ассистент настраиваются"]
-  C["3. pnpm run dev\nДев-сервер запускается,\nтуннель подключается"]
-  D["4. Открой ссылку из консоли\nПревью Mini App\nна реальном устройстве"]
-  E["5. AI помогает разрабатывать\n55+ документов по TMA, TON,\nкошелькам, контрактам, деплою"]
+The bot handles all the technical setup behind the scenes: cloning the template, configuring the tunnel, wiring up the AI assistant. The user just sees the result.
 
-  A --> B --> C --> D
-  C --> E
+## Getting Started
 
-  style A fill:#ff8c00,stroke:#e67300,color:#fff
-  style B fill:#ff9800,stroke:#e67300,color:#fff
-  style C fill:#ffa726,stroke:#e67300,color:#fff
-  style D fill:#ff8c00,stroke:#e67300,color:#fff
-  style E fill:#ffb74d,stroke:#e67300,color:#1a1a1a
+- [**@TMASpawnerBot**](https://t.me/TMASpawnerBot) — start here if you want to create a Mini App
+- [**GitHub**](https://github.com/SpawnDock) — source code and packages
+- [**Web3 Voice**](https://t.me/w3voice) — community
 
-  linkStyle default stroke:#ffa500,stroke-width:2px
-```
+## Platform Components
 
----
+**Project Setup**
 
-## Быстрый старт
+- [`@spawn-dock/create`](https://github.com/SpawnDock/create-spawn-dock) — Bootstrap CLI. Clones the starter template, configures the tunnel and MCP, links the project to the user's account.
+- [`tma-project`](https://github.com/SpawnDock/tma-project) — Starter template. Next.js + TypeScript + TON Connect + Telegram UI.
 
-```bash
-# Бот выдаёт команду с токеном — запусти её:
-npx -y @spawn-dock/create@beta --token <pairing-token> my-app
+**Development**
 
-# Запусти дев-сервер и туннель:
-cd my-app
-pnpm run dev
+- [`@spawn-dock/dev-tunnel`](https://github.com/SpawnDock/dev-tunnel) — Tunnel client. Exposes `localhost` to Telegram for real-device preview without deployment.
+- [`@spawn-dock/mcp`](https://github.com/SpawnDock/mcp-client) — MCP knowledge client. Gives AI agents (Claude, Cursor, Codex) access to 55+ docs on TMA, TON, wallets, smart contracts, and deployment.
+- [`@spawn-dock/cli`](https://github.com/SpawnDock/cli) — AI runtime launcher. Starts the configured agent in a sandboxed environment inside the project.
 
-# В консоли появится ссылка — открой в Telegram.
-```
+## Knowledge Base
 
----
+The MCP server provides AI agents with searchable access to **55+ documents** (29,500+ lines):
 
-## Как устроена платформа
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#ff8c00', 'primaryTextColor': '#fff', 'primaryBorderColor': '#e67300', 'lineColor': '#ffa500', 'clusterBkg': '#161b22', 'clusterBorder': '#e67300', 'background': '#0d1117', 'edgeLabelBackground': '#161b22'}}}%%
-flowchart TD
-  subgraph start [" "]
-    direction LR
-    spawner["TMA Spawner\n/new  /launch  /help"]
-  end
-
-  subgraph setup ["Настройка проекта"]
-    direction LR
-    create["create\nбутстрап"]
-    tmpl["tma-project\nNext.js + TON Connect\n+ Telegram UI"]
-    create -.->|клонирует| tmpl
-  end
-
-  subgraph dev ["Разработка"]
-    direction LR
-    tunnel["dev-tunnel\nтуннель для превью"]
-    mcp["mcp\nAI-клиент к базе знаний"]
-    cli["cli\nзапуск AI-агента"]
-    cli -.-> mcp
-  end
-
-  subgraph cloud ["Контрольная плоскость"]
-    api["Реестр проектов · Маршрутизация туннелей · База знаний"]
-  end
-
-  subgraph result [" "]
-    direction LR
-    preview["Mini App — превью в Telegram"]
-  end
-
-  spawner -->|"токен"| create
-  tunnel <-->|WebSocket| api
-  mcp -->|SSE| api
-  api --> preview
-
-  style spawner fill:#ff8c00,stroke:#e67300,color:#fff
-  style create fill:#ff9800,stroke:#e67300,color:#fff
-  style tmpl fill:#ffb74d,stroke:#e67300,color:#1a1a1a
-  style tunnel fill:#ffa726,stroke:#e67300,color:#fff
-  style mcp fill:#ffe0b2,stroke:#e67300,color:#1a1a1a
-  style cli fill:#ffe0b2,stroke:#e67300,color:#1a1a1a
-  style api fill:#ff8c00,stroke:#e67300,color:#fff
-  style preview fill:#ff8c00,stroke:#e67300,color:#fff
-
-  linkStyle default stroke:#ffa500,stroke-width:2px
-```
-
-| Пакет | Что делает |
+| Area | Coverage |
 | :--- | :--- |
-| [`@spawn-dock/create`](https://github.com/SpawnDock/create-spawn-dock) | Клонирует шаблон, настраивает туннель и MCP, привязывает проект к аккаунту |
-| [`@spawn-dock/dev-tunnel`](https://github.com/SpawnDock/dev-tunnel) | Пробрасывает `localhost` в Telegram — превью на телефоне без деплоя |
-| [`@spawn-dock/mcp`](https://github.com/SpawnDock/mcp-client) | Даёт AI-агентам (Claude, Cursor, Codex) доступ к 55+ документам по TMA и TON |
-| [`@spawn-dock/cli`](https://github.com/SpawnDock/cli) | Запускает AI-агента в песочнице внутри проекта |
-| [`tma-project`](https://github.com/SpawnDock/tma-project) | Стартовый шаблон — Next.js + TypeScript + TON Connect + Telegram UI |
+| **Telegram Mini Apps** | WebApp API, navigation, theming, testing, security, performance |
+| **TON Blockchain** | Smart contracts (Tolk / Tact / FunC), jettons, NFTs, DeFi, wallets, DNS, payments |
+| **TON Connect** | Wallet integration, authentication, TON Proof |
+| **Deployment** | Cloudflare Pages, Vercel, GitHub Pages |
+| **Templates** | Shop, game, landing, quiz, menu, portfolio |
 
----
-
-## База знаний
-
-AI-ассистент работает с **55+ документами** (29 500+ строк):
-
-| Тема | Что покрывает |
-| :--- | :--- |
-| **Telegram Mini Apps** | WebApp API, навигация, темы, тестирование, безопасность, производительность |
-| **TON Blockchain** | Смарт-контракты (Tolk / Tact / FunC), жетоны, NFT, DeFi, кошельки, DNS, платежи |
-| **TON Connect** | Подключение кошельков, аутентификация, TON Proof |
-| **Деплой** | Cloudflare Pages, Vercel, GitHub Pages |
-| **Шаблоны** | Магазин, игра, лендинг, квиз, меню, портфолио |
-
----
-
-## Лицензия
+## License
 
 MIT
