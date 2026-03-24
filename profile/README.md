@@ -5,7 +5,7 @@ AI-powered development platform for Telegram Mini Apps on the TON blockchain. Bo
 ## How it works
 
 ```
-npx @spawn-dock/create --token <pairing-token> my-app
+npx -y @spawn-dock/create@beta --token <pairing-token> my-app
 cd my-app && pnpm run dev
 ```
 
@@ -53,7 +53,7 @@ The MCP server provides AI agents with searchable access to 55+ documents coveri
 
 ```bash
 # 1. Create a new project
-npx @spawn-dock/create --token <pairing-token> my-app
+npx -y @spawn-dock/create@beta --token <pairing-token> my-app
 
 # 2. Start dev server + tunnel
 cd my-app
