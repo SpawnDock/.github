@@ -15,12 +15,11 @@ The bootstrap CLI clones the starter template, configures the tunnel, wires up M
 
 | Package | Description |
 |---------|-------------|
-| [`@spawn-dock/create`](https://github.com/SpawnDock/create) | Bootstrap CLI. Scaffolds a new TMA project with SpawnDock config, dev tunnel, and MCP integration out of the box. |
-| [`@spawn-dock/dev-tunnel`](https://github.com/SpawnDock/dev-tunnel) | WebSocket tunnel client. Exposes your local dev server through the SpawnDock control plane so you can preview your TMA from a real Telegram client. |
-| [`@spawn-dock/mcp`](https://github.com/SpawnDock/mcp-client) | MCP knowledge client. A stdio-to-SSE bridge that gives AI agents (Claude Code, Cursor, Codex) access to 55+ docs on TMA development, TON smart contracts, and deployment. |
-| [`@spawn-dock/cli`](https://github.com/SpawnDock/cli) | AI runtime launcher. Detects `spawndock.config.json` and starts the configured agent (OpenCode, Claude, or Codex) in a sandboxed environment. |
+| [`create`](https://github.com/SpawnDock/create) | Bootstrap CLI. Scaffolds a new TMA project with SpawnDock config, dev tunnel, and MCP integration out of the box. |
+| [`dev-tunnel`](https://github.com/SpawnDock/dev-tunnel) | WebSocket tunnel client. Exposes your local dev server through the SpawnDock control plane so you can preview your TMA from a real Telegram client. |
+| [`mcp`](https://github.com/SpawnDock/mcp-client) | MCP knowledge client. A stdio-to-SSE bridge that gives AI agents (Claude Code, Cursor, Codex) access to 55+ docs on TMA development, TON smart contracts, and deployment. |
+| [`cli`](https://github.com/SpawnDock/cli) | AI runtime launcher. Detects `spawndock.config.json` and starts the configured agent (OpenCode, Claude, or Codex) in a sandboxed environment. |
 | [`tma-project`](https://github.com/SpawnDock/tma-project) | Starter template. Next.js + TypeScript + TON Connect + Telegram UI — the base every `@spawn-dock/create` project is built from. |
-| [`api`](https://github.com/SpawnDock/api) | Control plane and MCP knowledge server. Hosts the AI-searchable knowledge base (TMA, TON, deployment guides) and manages project previews, tunnels, and the Telegram bot. |
 
 ## Architecture
 
